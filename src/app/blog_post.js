@@ -1,16 +1,18 @@
 import React from "react";
 
 const Blog_post = (params) => {
+  const mongodbDate = new Date(params.date);
+  const formattedDate = mongodbDate.toLocaleString();
   return (
     <>
-      <div className="shadow-sm border-b-2 w-2/3">
+      <div className="shadow-sm border-b-2 w-2/3 pt-2">
         <div className="flex">
-          <p className="p-2 text-xl font-light">Author name</p>
-          <p className="p-2 text-xl font-light">date</p>
+          <p className="pr-2 text-xl font-serif">{params.username}</p>
+          <p className="pt-1 text font-light">{formattedDate}</p>
         </div>
         <div>
-            <h1 className="text-xl p-2 font-semibold ">Blog title</h1>
-            <p className="p-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Animi, eveniet iure fugit iste quo vitae officiis. Deserunt rerum aliquam, nisi dolor eligendi facere dolore dolorum asperiores esse soluta molestias tempore!</p>
+            <h1 className="pt-2 font-semibold ">{params.title}</h1>
+            <p className="pt-1 pb-4">{params.content}</p>
         </div>
       </div>
     </>

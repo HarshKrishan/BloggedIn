@@ -18,4 +18,5 @@ const post = new Schema(
     timestamps: true,
   }
 );
-export default mongoose.models.post || mongoose.model("post", post);
+post.index({ updatedAt: -1 });
+export default mongoose.models.Post || mongoose.model("Post", post);

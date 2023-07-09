@@ -1,23 +1,76 @@
 "use client";
 import { signOut } from "next-auth/react";
-import React, { useState } from "react";
-import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { useSession,getSession } from "next-auth/react";
 import Blog_post from "../blog_post";
 import Link from "next/link";
 
 import { redirect } from "next/navigation";
+import Footer from "../component/footer";
 const Blogs = () => {
   const session = useSession();
-  console.log(session);
+  
+  // console.log(session);
+  if(session.status==="unauthenticated"){
+    redirect("/login");
+  }
   const [clicked, setClicked] = useState(false);
   const [writePost, setWritePost] = useState(false);
+  const [user, setuser] = useState("");
+  const [posts, setposts] = useState([]);
+  const [newposttitle, setnewposttitle] = useState("");
+  const [newpostcontent, setnewpostcontent] = useState("");
+  // console.log("user",session.data.user.name);
   
-  
+  const fetchUserData = async () => {
+    try {
+      const url = "/api/signup/?email=" + session.data.user.email;
+      const response = await fetch(url);
+      const json = await response.json();
+      // console.log("json", json[0]);
+      await setuser(json[0].username);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchData = async () => {
+    try {
+      const url = "/api/posts";
+      const response = await fetch(url);
+      const json = await response.json();
+      // console.log("json", json);
+      await setposts(json);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserData();
+    fetchData();
+  },[]);
+  const handlepost = async () => {
+    const res = await fetch("/api/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username:user,title: newposttitle, content: newpostcontent }),
+      
+    });
+    const data = await res.json();
+    console.log(data);
+    setposts((prev) => [...prev,data]);
+    setnewposttitle("");
+    setnewpostcontent("");
+    setWritePost((prev) => !prev);
+    fetchData();
+  };
+
   const handleSignout = async () => {
     await signOut({
       callbackUrl: `${window.location.origin}`,
     });
-    redirect("/");
+    // redirect("/");
   };
   return (
     <>
@@ -31,7 +84,7 @@ const Blogs = () => {
               className="font-semibold text-xl"
               onClick={() => setWritePost((prev) => !prev)}
             >
-              write post
+              <img className="h-7" src="edit-regular.svg" alt="write" />
             </button>
           </li>
           <li>
@@ -41,9 +94,9 @@ const Blogs = () => {
             <div>
               <button
                 onClick={() => setClicked((prev) => !prev)}
-                className="font-semibold text-xl"
+                className="font-semibold text-xl mr-4"
               >
-                Name
+                {user}
               </button>
               {clicked ? (
                 <div className="absolute top-16 right-0 bg-slate-200 rounded-md">
@@ -84,46 +137,50 @@ const Blogs = () => {
         <div className="flex justify-center align-center relative">
           <div className="flex flex-col  bg-slate-300 text-white p-4 rounded-md absolute z-10">
             <div className="mb-3 text-black font-sans">
-              <h2>Name</h2>
+              <h2>{user}</h2>
             </div>
             <div className="flex flex-col">
               <label className="font-bold text-black">
                 Title
-                <input type="text" name="title" className="mb-3 ml-3" />
+                <input
+                  type="text"
+                  name="title"
+                  className="mb-3 ml-3"
+                  value={newposttitle}
+                  onChange={(e) => setnewposttitle(e.target.value)}
+                />
               </label>
               <textarea
                 name="content"
                 placeholder="Share your thoughts..."
-                className="ml-10"
+                className="ml-10 text-black"
+                value={newpostcontent}
+                onChange={(e) => setnewpostcontent(e.target.value)}
               />
+            </div>
+            <div className="flex justify-end">
+              <button
+                className="bg-slate-200 text-black rounded-md p-2 mt-3 hover:bg-white mx-3"
+                onClick={() => setWritePost((prev) => !prev)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-slate-200 text-black rounded-md p-2 mt-3 hover:bg-white"
+                onClick={handlepost}
+              >
+                Post
+              </button>
             </div>
           </div>
         </div>
       ) : null}
       <div className="flex flex-wrap justify-evenly p-10 flex-shrink">
-        <Blog_post data="hello" />
+        { posts.map((post) => (
+          <Blog_post  key={post._id} username={post.username} title={post.title} content={post.content} date={post.updatedAt} />
+        ))}
       </div>
-      <footer className="p-10 bg-slate-200 bottom-0 fixed w-full">
-        <div className="flex justify-between">
-          <h3 className="font-bold text-2xl">BloggedIn</h3>
-          <div>
-            <ul className="flex space-x-5">
-              <li>
-                <Link href={"/about"}>About</Link>
-              </li>
-              <li>
-                <Link href={"/"}>Careers</Link>
-              </li>
-              <li>
-                <Link href={"/"}>Contact</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="flex justify-between">
-          <p>Made with Love @2023</p>
-        </div>
-      </footer>
+      <Footer page="blogs"/>
     </>
   );
 };

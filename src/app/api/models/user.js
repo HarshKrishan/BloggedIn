@@ -12,11 +12,11 @@ const user = new Schema(
     },
     password: {
       type: String,
-      required:true,
+      required: true,
     },
   },
   {
     timestamps: true,
   }
 );
-export default mongoose.models.user || mongoose.model("user", user);
+export default mongoose.models.User || mongoose.model("User", user);
