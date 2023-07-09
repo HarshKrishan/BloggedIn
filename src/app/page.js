@@ -1,6 +1,6 @@
 "use client";
 
-import Bg from "public/bg.jpg";
+import Bg from "public/Bg.jpg";
 import Link from "next/link";
 import Card from "./card";
 
