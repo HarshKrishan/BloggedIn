@@ -9,11 +9,11 @@ export async function POST(request) {
     const { username, email, password } = await request.json();
     await connectMongoDB();
     const id = await User.find({email:email});
-    console.log(id);
+    // console.log(id);
     if (id.length>0)
       return NextResponse.json({ message: "Already registered" }, { status: 404 });
     const res = await User.create({ username, email, password });
-    console.log(res);
+    // console.log(res);
     if(res){
       return NextResponse.json(
         { message: "user created successfully" },

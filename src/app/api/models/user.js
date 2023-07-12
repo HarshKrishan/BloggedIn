@@ -14,6 +14,10 @@ const user = new Schema(
       type: String,
       required: true,
     },
+    saved_posts: {
+      type: [String],
+      required: false,
+    },
   },
   {
     timestamps: true,

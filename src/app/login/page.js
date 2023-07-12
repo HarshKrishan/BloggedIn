@@ -60,8 +60,48 @@ const Login = () => {
     if (res.error) {
       alert(res.error);
     }
+    
 
   };
+  // const handleGoogleSignin = async () => {
+  //   const res = await signIn("google", {
+  //     redirect: false,
+  //     callbackUrl:"/"
+  //   });
+  //   if (res.error) {
+  //     alert(res.error);
+  //   }
+  //   setusername(session.data.username);
+  //   setemail(session.data.email);
+  //   setpassword(username);
+  //   const result = await fetch("/api/signup", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify( {username, email, password} ),
+  //   });
+
+  // };
+  // const handleGithubSignin = async () => {
+  //   const res = await signIn("github", {
+  //     redirect: false,
+  //     callbackUrl: "/",
+  //   });
+  //   if (res.error) {
+  //     alert(res.error);
+  //   }
+  //   setusername(session.data.username);
+  //   setemail(session.data.email);
+  //   setpassword(username);
+  //   const result = await fetch("/api/signup", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ username, email, password }),
+  //   });
+  // };
 
   if (session.status == "loading") {
     return <div>loading...</div>;

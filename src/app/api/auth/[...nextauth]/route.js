@@ -34,6 +34,20 @@ const handler = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async signInGoogleProvider(user, account, profile) {
+      console.log("user", user);
+      console.log("account", account);
+      console.log("profile", profile);
+      return true;
+    },
+    async signInGithubProvider(user, account, profile) {
+      console.log("user", user);
+      console.log("account", account);
+      console.log("profile", profile);
+      return true;
+    }
+  }
 });
 
 export { handler as GET, handler as POST };

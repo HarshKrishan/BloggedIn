@@ -10,7 +10,7 @@ import Footer from "../component/footer";
 const Blogs = () => {
   const session = useSession();
   
-  // console.log(session);
+  console.log(session);
   if(session.status==="unauthenticated"){
     redirect("/login");
   }
@@ -23,6 +23,16 @@ const Blogs = () => {
   // console.log("user",session.data.user.name);
   
   const fetchUserData = async () => {
+    setuser(session.data.user.name);
+    const email = session.data.user.email;
+    const password = user;
+    const result = await fetch("/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username:user, email:email, password:password }),
+    });
     try {
       const url = "/api/signup/?email=" + session.data.user.email;
       const response = await fetch(url);
@@ -34,6 +44,7 @@ const Blogs = () => {
     }
   };
   const fetchData = async () => {
+    
     try {
       const url = "/api/posts";
       const response = await fetch(url);
@@ -48,6 +59,8 @@ const Blogs = () => {
     fetchUserData();
     fetchData();
   },[]);
+
+  
   const handlepost = async () => {
     const res = await fetch("/api/posts", {
       method: "POST",
@@ -79,7 +92,7 @@ const Blogs = () => {
           <img className="h-10" src="logo.png" alt="logo" />
         </div>
         <ul className="flex space-x-8 justify-center">
-          <li>
+          <li >
             <button
               className="font-semibold text-xl"
               onClick={() => setWritePost((prev) => !prev)}
@@ -97,13 +110,14 @@ const Blogs = () => {
                 className="font-semibold text-xl mr-4"
               >
                 {user}
+                {/* name */}
               </button>
               {clicked ? (
                 <div className="absolute top-16 right-0 bg-slate-200 rounded-md">
                   <ul className="flex flex-col space-y-2 p-3 ">
                     <li>
                       <Link
-                        href={"/"}
+                        href={{pathname:"/profile",query:{username:user}}}
                         className="font-medium text-xl border-b-2 hover:border-b-black"
                       >
                         Profile
