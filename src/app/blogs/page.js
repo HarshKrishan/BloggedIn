@@ -20,10 +20,14 @@ const Blogs = () => {
   const [posts, setposts] = useState([]);
   const [newposttitle, setnewposttitle] = useState("");
   const [newpostcontent, setnewpostcontent] = useState("");
+  const [customlogin, setcustomlogin] = useState(false);
   // console.log("user",session.data.user.name);
   
   const fetchUserData = async () => {
-    setuser(session.data.user.name);
+    if(!customlogin){
+      setuser(session.data.user.name);
+    }
+    
     const email = session.data.user.email;
     const password = user;
     const result = await fetch("/api/signup", {
@@ -87,12 +91,12 @@ const Blogs = () => {
   };
   return (
     <>
-      <nav className="flex justify-between p-4 bg-slate-200 ">
+      <nav className="flex justify-between p-4 bg-slate-200 sticky top-0">
         <div>
           <img className="h-10" src="logo.png" alt="logo" />
         </div>
         <ul className="flex space-x-8 justify-center">
-          <li >
+          <li>
             <button
               className="font-semibold text-xl"
               onClick={() => setWritePost((prev) => !prev)}
@@ -117,7 +121,10 @@ const Blogs = () => {
                   <ul className="flex flex-col space-y-2 p-3 ">
                     <li>
                       <Link
-                        href={{pathname:"/profile",query:{username:user}}}
+                        href={{
+                          pathname: "/profile",
+                          query: { username: user },
+                        }}
                         className="font-medium text-xl border-b-2 hover:border-b-black"
                       >
                         Profile
@@ -189,12 +196,18 @@ const Blogs = () => {
           </div>
         </div>
       ) : null}
-      <div className="flex flex-wrap justify-evenly p-10 flex-shrink">
-        { posts.map((post) => (
-          <Blog_post  key={post._id} username={post.username} title={post.title} content={post.content} date={post.updatedAt} />
+      <div className="flex flex-wrap justify-evenly p-10 flex-shrink ">
+        {posts.map((post) => (
+          <Blog_post
+            key={post._id}
+            username={post.username}
+            title={post.title}
+            content={post.content}
+            date={post.updatedAt}
+          />
         ))}
       </div>
-      <Footer page="blogs"/>
+      <Footer page="blogs" />
     </>
   );
 };

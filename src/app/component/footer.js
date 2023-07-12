@@ -27,7 +27,7 @@ const Footer = (params) => {
     </>
   ) : (
     <>
-      <footer className="p-10 bg-slate-200 bottom-0 fixed w-full">
+      <footer className="p-10 bg-slate-200 bottom-0  w-full">
         <div className="flex justify-between">
           <h3 className="font-bold text-2xl">BloggedIn</h3>
           <div>
