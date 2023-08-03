@@ -191,13 +191,13 @@ const Login = () => {
 
                 <div>
                   <button
-                    onClick={() => signIn("google")}
+                    // onClick={() => signIn("google")}
                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded m-2"
                   >
                     Login with Google
                   </button>
                   <button
-                    onClick={() => signIn("github")}
+                    // onClick={() => signIn("github")}
                     className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
                   >
                     Login with Github
