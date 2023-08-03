@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
 const Login = () => {
@@ -135,9 +135,11 @@ const Login = () => {
           <div className="flex justify-center">
             <div className="flex flex-col">
               <div className=" flex justify-center">
-                <img
+                <Image
+                  height={10}
+                  width={10}
                   className="h-20 w-20"
-                  src="Screenshot_2023-07-04_170715-removebg-preview.png"
+                  src="/Screenshot_2023-07-04_170715-removebg-preview.png"
                   alt="logo"
                 />
               </div>
@@ -214,9 +216,11 @@ const Login = () => {
           <div className="flex justify-center">
             <div className="flex flex-col">
               <div className=" flex justify-center">
-                <img
+                <Image
+                  height={10}
+                  width={10}
                   className="h-20 w-20"
-                  src="Screenshot_2023-07-04_170715-removebg-preview.png"
+                  src="/Screenshot_2023-07-04_170715-removebg-preview.png"
                   alt="logo"
                 />
               </div>

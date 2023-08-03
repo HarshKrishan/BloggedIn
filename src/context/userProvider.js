@@ -7,6 +7,14 @@ const UserProvider = ({children}) => {
 
     try{
         useEffect(() => {
+            const res = async () => {
+              const result = await fetch("/api/current");
+              // console.log(result)
+              const data = await result.json();
+              console.log("data", data);
+              setUser(data);
+              console.log("user", user);
+            };
             res();
         }, []);
         // const result = await fetch("/api/authentication", {
@@ -14,15 +22,7 @@ const UserProvider = ({children}) => {
         //   body: JSON.stringify(credentials),
         //   headers: { "Content-Type": "application/json" },
         // });
-        const res = async () =>{
-            
-            const result = await fetch("/api/current");
-            // console.log(result)
-            const data = await result.json();
-            console.log("data",data);
-            setUser(data);
-            console.log("user",user);
-        }
+        
 
     }catch(err){
         console.log(err);

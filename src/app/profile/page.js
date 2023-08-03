@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Blog_post from "../blog_post";
+import Image from "next/image";
 const Profile = (request) => {
   console.log("request", request);
   const [posts, setposts] = useState([]);
@@ -11,31 +12,31 @@ const Profile = (request) => {
   const [savedPostsLength, setsavedPostsLength] = useState(0);
   const [myPostsSelected, setMyPostsSelected] = useState(true);
   const [savedPostsSelected, setSavedPostsSelected] = useState(false);
-  const fetchData = async () => {
-    try {
-      const url = "/api/myposts?userid=" + params.userid;
-      const response = await fetch(url);
-      const json = await response.json();
-      console.log("json", json);
-      if(json.length>0){
-        setlength(json.length);
-      }
-      await setposts(json);
-
-      const url2 = "/api/savedposts?userid=" + params.userid;
-      const response2 = await fetch(url2);
-      const json2 = await response2.json();
-      console.log("json2", json2);
-      if(json2.length>0){
-        setsavedPostsLength(json2.length);
-      }
-      await setsavedPosts(json2);
-
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const url = "/api/myposts?userid=" + params.userid;
+        const response = await fetch(url);
+        const json = await response.json();
+        console.log("json", json);
+        if (json.length > 0) {
+          setlength(json.length);
+        }
+        await setposts(json);
+
+        const url2 = "/api/savedposts?userid=" + params.userid;
+        const response2 = await fetch(url2);
+        const json2 = await response2.json();
+        console.log("json2", json2);
+        if (json2.length > 0) {
+          setsavedPostsLength(json2.length);
+        }
+        await setsavedPosts(json2);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
     fetchData();
   }, []);
   console.log("posts", posts)
@@ -53,7 +54,7 @@ const Profile = (request) => {
           <ul className="">
             <li className="flex justify-center my-5">
               <Link href="/blogs">
-                <img className="h-10" src="logo.png" alt="logo" />
+                <Image height={10} width={40} className="h-10" src="/logo.png" alt="logo" />
               </Link>
             </li>
             <li className="flex justify-center my-5 text-xl">
@@ -132,7 +133,7 @@ const Profile = (request) => {
                   />
                 ))
               ) : (
-                <h1 className="text-2xl">You haven't posted anything</h1>
+                <h1 className="text-2xl">You haven&apos;t posted anything</h1>
               )
             ) : (
               savedPostsLength > 0 ? (
@@ -146,7 +147,7 @@ const Profile = (request) => {
                   />
                 ))
               ) : (
-                <h1 className="text-2xl">You haven't saved anything</h1>
+                <h1 className="text-2xl">You haven&apos;t saved anything</h1>
               )
             )}
           </div>

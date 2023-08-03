@@ -1,5 +1,6 @@
 "use client";
-import Link from "next/link";
+import Image from "next/image";
+
 import React,{useState} from "react";
 
 const Blog_post = (params) => {
@@ -37,9 +38,21 @@ const Blog_post = (params) => {
           <div>
             <button className="" onClick={togglesave}>
               {!save ? (
-                <img className="h-10" src="save_tag_icon.png" alt="save post" />
+                <Image
+                  height={40}
+                  width={40}
+                  className="h-10"
+                  src="/save_tag_icon.png"
+                  alt="save post"
+                />
               ) : (
-                <img className="h-10" src="save_tag_icon_dark.png" alt="un-save post" />
+                <Image
+                  width={40}
+                  height={40}
+                  className="h-10"
+                  src="/save_tag_icon_dark.png"
+                  alt="un-save post"
+                />
               )}
             </button>
           </div>

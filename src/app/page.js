@@ -65,31 +65,31 @@ export default function Home() {
           <div className="flex flex-wrap justify-evenly p-10 flex-shrink">
             <Card
               data="Share Your Voice"
-              img="19199716.jpg"
+              img="/19199716.jpg"
               desc="Unleash the power of your voice and create change. Engage in meaningful conversations, inspire others, and make a lasting impact. Share your voice and shape a better future."
               dir="normal"
             />
             <Card
               data="Learn And Grow"
-              img="20944387.jpg"
+              img="/20944387.jpg"
               desc="Embrace a path of continuous growth and learning. Expand your knowledge, acquire new skills, and unlock your true potential. Learn, evolve, and embark on a journey of endless possibilities."
               dir="reverse"
             />
             <Card
               data="Connect With Passionate Minds"
-              img="na_march_25.jpg"
+              img="/na_march_25.jpg"
               desc="Connect with passionate minds. Join a community that inspires collaboration and ignites creativity. Engage with like-minded individuals, exchange ideas, and fuel your passion together."
               dir="normal"
             />
             <Card
               data="Promote Your Personal Brand"
-              img="2101.i101.013.S.m004.c13.self promotion branding isometric.jpg"
+              img="/2101.i101.013.S.m004.c13.self promotion branding isometric.jpg"
               desc="Promote your personal brand. Unleash your unique identity and captivate your audience. Build your online presence, showcase your talents, and open doors to new opportunities."
               dir="reverse"
             />
             <Card
               data="Supportive Community"
-              img="5498791.jpg"
+              img="/5498791.jpg"
               desc="Find solace in a supportive community. Connect with kindred spirits who uplift and empower. Share, grow, and thrive together."
               dir="normal"
             />

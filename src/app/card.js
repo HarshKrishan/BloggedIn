@@ -1,5 +1,5 @@
 import React from "react";
-
+import Image from "next/image";
 const Card = (params) => {
   return params.dir === "normal" ? (
     <div className="flex justify-center">
@@ -9,7 +9,9 @@ const Card = (params) => {
           <p className="font-mono text-base ">{params.desc}</p>
         </div>
 
-        <img
+        <Image
+          width={300}
+          height={300}
           className="h-24 w-auto rounded-lg shadow-sm"
           src={params.img}
           alt="logo"
@@ -24,7 +26,10 @@ const Card = (params) => {
           <p className=" ml-12 font-mono text-base ">{params.desc}</p>
         </div>
 
-        <img
+        <Image
+          // fill={true}
+          width={300}
+          height={300}
           className="h-24 w-auto rounded-lg shadow-sm"
           src={params.img}
           alt="logo"

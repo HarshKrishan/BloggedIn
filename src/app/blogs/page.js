@@ -8,6 +8,8 @@ import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Footer from "../component/footer";
 import UserContext from "@/context/userContext";
+import Image from "next/image";
+
 const Blogs = () => {
   const session = useSession();
   console.log("session",session.data);
@@ -111,7 +113,13 @@ const Blogs = () => {
     <>
       <nav className="flex justify-between p-4 bg-slate-200 sticky top-0">
         <div>
-          <img className="h-10" src="logo.png" alt="logo" />
+          <Image
+            width={40}
+            height={10}
+            className="h-10"
+            src="/logo.png"
+            alt="logo"
+          />
         </div>
         <ul className="flex space-x-8 justify-center">
           <li>
@@ -119,7 +127,13 @@ const Blogs = () => {
               className="font-semibold text-xl"
               onClick={() => setWritePost((prev) => !prev)}
             >
-              <img className="h-7" src="edit-regular.svg" alt="write" />
+              <Image
+                width={70}
+                height={70}
+                className="h-7"
+                src="/edit-regular.svg"
+                alt="write"
+              />
             </button>
           </li>
           <li>
@@ -141,7 +155,7 @@ const Blogs = () => {
                       <Link
                         href={{
                           pathname: "/profile",
-                          query: { username: user,userid:userid },
+                          query: { username: user, userid: userid },
                         }}
                         className="font-medium text-xl border-b-2 hover:border-b-black"
                       >
@@ -217,14 +231,13 @@ const Blogs = () => {
       <div className="flex flex-wrap justify-evenly p-10 mb-28 flex-shrink">
         {posts.map((post) => (
           <Blog_post
-            userid = {userid}
-            id = {post._id}
+            userid={userid}
+            id={post._id}
             key={post._id}
             username={post.username}
             title={post.title}
             content={post.content}
             date={post.updatedAt}
-
           />
         ))}
       </div>
