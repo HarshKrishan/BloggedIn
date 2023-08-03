@@ -9,17 +9,17 @@ import { signOut, useSession } from "next-auth/react";
 import Footer from "./component/footer";
 export default function Home() {
   const session = useSession();
-  console.log(session);
+  // console.log(session);
   if (session.status == "loading") {
     return <div>loading...</div>;
   }
-  if (session.status == "authenticated") {
-    redirect("/blogs");
-  }
+  // if (session.status == "authenticated") {
+  //   redirect("/blogs");
+  // }
 
   return (
     <>
-      <nav className="flex justify-between p-4 bg-slate-200 ">
+      <nav className="flex justify-between p-4 bg-slate-200 w-screen">
         <div>
           <img className="h-10 px-2" src="logo.png" alt="logo" />
         </div>
@@ -57,7 +57,7 @@ export default function Home() {
         </div>
       </div>
       <div>
-        <div className="flex  bg-slate-100 justify-center flex-col">
+        <div className="flex  bg-slate-100 justify-center flex-col w-screen">
           <div className="flex justify-center">
             <h2 className="p-10 font-bold text-5xl">Why choose us?</h2>
           </div>

@@ -1,7 +1,29 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React,{useState} from "react";
 
 const Blog_post = (params) => {
+  const[save,setsave]=useState(false);
+  const togglesave = async ()=>{
+    setsave(!save);
+    console.log("id",params.id);
+    console.log("userid",params.userid);
+    try {
+      const url = "/api/savedposts";
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ postid: params.id, userid: params.userid }),
+      });
+      const json = await response.json();
+      console.log("json", json);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const mongodbDate = new Date(params.date);
   const formattedDate = mongodbDate.toLocaleString();
   return (
@@ -13,8 +35,12 @@ const Blog_post = (params) => {
             <p className="px-2 text-sm font-light">{formattedDate}</p>
           </div>
           <div>
-            <button className="">
-              <img  className="h-10" src="save_tag_icon.png" alt="save post" />
+            <button className="" onClick={togglesave}>
+              {!save ? (
+                <img className="h-10" src="save_tag_icon.png" alt="save post" />
+              ) : (
+                <img className="h-10" src="save_tag_icon_dark.png" alt="un-save post" />
+              )}
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import User from "../models/user";
 import connectMongoDB from "../libs/mongodb";
-// import { hash } from "bcryptjs";
+import bcrypt from "bcryptjs";
 
 export async function POST(request) {
   //   console.log("request", request);
@@ -12,7 +12,9 @@ export async function POST(request) {
     // console.log(id);
     if (id.length>0)
       return NextResponse.json({ message: "Already registered" }, { status: 404 });
-    const res = await User.create({ username, email, password });
+    const hashedPassword = bcrypt.hashSync(password, parseInt(process.env.BCRYPT_SALT));
+
+    const res = await User.create({ username, email, password:hashedPassword});
     // console.log(res);
     if(res){
       return NextResponse.json(

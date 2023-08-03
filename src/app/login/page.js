@@ -1,12 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import { signIn, useSession } from "next-auth/react";
-
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const Login = () => {
   const session = useSession();
+  const router = useRouter();
   // console.log(session);
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -49,16 +50,30 @@ const Login = () => {
   
 
   const handleSignin = async () => {
-    const res = await signIn("credentials", {
-      name:username,
-      email: email,
-      password: password,
-      redirect: false,
-      callbackUrl:"/"
+    // const res = await signIn("credentials", {
+    //   email: email,
+    //   password: password,
+    //   redirect: true,
+    //   callbackUrl:"/blogs"
+    // });
+    const res = await fetch("/api/authentication",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({email,password})
     });
-
-    if (res.error) {
-      alert(res.error);
+    const data = await res.json();
+    console.log(data);
+    if (data.status==400 || data.message==="invalid credentials") {
+      alert(data.message);
+      setemail("");
+      setpassword("");
+      
+    }else{
+      console.log("redirecting to blogs...")
+      router.push("/blogs");
+      // redirect("/blogs");
     }
     
 

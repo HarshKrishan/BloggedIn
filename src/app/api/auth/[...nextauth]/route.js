@@ -4,6 +4,9 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import connectMongoDB from "../../libs/mongodb";
 import User from "../../models/user";
+import bcrypt from "bcrypt";
+import Jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
 
 const handler = NextAuth({
   providers: [
@@ -23,29 +26,73 @@ const handler = NextAuth({
         password: { label: "password", type: "password" },
       },
       async authorize(credentials, req) {
+        // await connectMongoDB();
+        // const result = await User.findOne({ email: credentials.email });
+        // if (!result) {
+        //   throw new Error("No user found");
+        // }
+        // if ((result != null) & (credentials.password === result.password)) {
+        //   return result;
+        // }
         await connectMongoDB();
-        const result = await User.findOne({ email: credentials.email });
-        if (!result) {
-          throw new Error("No user found");
-        }
-        if ((result != null) & (credentials.password === result.password)) {
-          return result;
+        const { email, password } = credentials;
+        const isreal = await User.findOne({ email });
+        // console.log(isreal);
+        // console.log(bcrypt.compareSync(password, isreal.password));
+        if ((isreal != null) & bcrypt.compareSync(password, isreal.password)) {
+          // const token = Jwt.sign(
+          //   {
+          //     id: isreal._id,
+          //     username: isreal.username,
+          //   },
+          //   process.env.JWT_SECRET,
+          //   { expiresIn: "1h" }
+          // );
+          // console.log("auth",token);
+
+          // const response = NextResponse.json(
+          //   { message: "user found" },
+          //   { status: 200 }
+          // );
+          // response.cookies.set("token", token, {
+          //   httpOnly: true,
+          // });
+
+          return NextResponse.json({ message: "user found" ,user:isreal}, { status: 200 });
+        } else {
+          console.log("invalid credentials");
+          return NextResponse.json(
+            { message: "invalid credentials" },
+            { status: 404 }
+          );
         }
       },
     }),
   ],
   callbacks: {
-    async signInGoogleProvider(user, account, profile) {
-      console.log("user", user);
-      console.log("account", account);
-      console.log("profile", profile);
-      return true;
+    // async signInGoogleProvider(user, account, profile) {
+    //   console.log("user", user);
+    //   console.log("account", account);
+    //   console.log("profile", profile);
+    //   return true;
+    // },
+    // async signInGithubProvider(user, account, profile) {
+    //   console.log("user", user);
+    //   console.log("account", account);
+    //   console.log("profile", profile);
+    //   return true;
+    // }
+    async jwt(token,user){
+      if(user){
+        token.id=user.id;
+        token.name=user.name;
+        token.email=user.email;
+      }
+      return token;
     },
-    async signInGithubProvider(user, account, profile) {
-      console.log("user", user);
-      console.log("account", account);
-      console.log("profile", profile);
-      return true;
+    async session(session,token){
+      session.user=token;
+      return session;
     }
   }
 });

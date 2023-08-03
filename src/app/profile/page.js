@@ -13,14 +13,24 @@ const Profile = (request) => {
   const [savedPostsSelected, setSavedPostsSelected] = useState(false);
   const fetchData = async () => {
     try {
-      const url = "/api/myposts?name=" + params.username;
+      const url = "/api/myposts?userid=" + params.userid;
       const response = await fetch(url);
       const json = await response.json();
-      // console.log("json", json);
+      console.log("json", json);
       if(json.length>0){
         setlength(json.length);
       }
       await setposts(json);
+
+      const url2 = "/api/savedposts?userid=" + params.userid;
+      const response2 = await fetch(url2);
+      const json2 = await response2.json();
+      console.log("json2", json2);
+      if(json2.length>0){
+        setsavedPostsLength(json2.length);
+      }
+      await setsavedPosts(json2);
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -28,12 +38,19 @@ const Profile = (request) => {
   useEffect(() => {
     fetchData();
   }, []);
-  // console.log("posts", posts)
+  console.log("posts", posts)
+  console.log("savedPosts", savedPosts);
+  savedPosts.map((post) => {
+    
+    console.log("post",post);
+    
+  });
+
   return (
     <>
-      <div className="flex">
-        <nav className="h-screen bg-slate-200 w-1/6">
-          <ul>
+      <div className="flex ">
+        <nav className="h-screen bg-slate-200 w-1/6 ">
+          <ul className="">
             <li className="flex justify-center my-5">
               <Link href="/blogs">
                 <img className="h-10" src="logo.png" alt="logo" />
@@ -72,7 +89,6 @@ const Profile = (request) => {
                   onClick={() => {
                     setMyPostsSelected(false);
                     setlength(0);
-
                   }}
                   className="border-b-2 border-orange-400"
                 >
@@ -87,9 +103,9 @@ const Profile = (request) => {
             </li>
           </ul>
         </nav>
-        <div className="w-5/6 flex justify-center">
-          <div className="flex flex-col ml-5 mt-10 w-5/6">
-            {length > 0 ? (
+        <div className="w-5/6 flex justify-center ">
+          <div className="flex flex-col ml-5 my-10 w-5/6 h-4/5 overflow-auto no-scrollbar">
+            {/* {length > 0 ? (
               posts.map((post) => (
                 <Blog_post
                   key={post._id}
@@ -103,6 +119,35 @@ const Profile = (request) => {
               <h1 className="text-2xl">You haven't posted anything</h1>
             ) : (
               <h1 className="text-2xl">You haven't saved anything</h1>
+            )} */}
+            {myPostsSelected ? (
+              length > 0 ? (
+                posts.map((post) => (
+                  <Blog_post
+                    key={post._id}
+                    username={post.username}
+                    title={post.title}
+                    content={post.content}
+                    date={post.updatedAt}
+                  />
+                ))
+              ) : (
+                <h1 className="text-2xl">You haven't posted anything</h1>
+              )
+            ) : (
+              savedPostsLength > 0 ? (
+                savedPosts.map((post) => (
+                  <Blog_post
+                    key={post._id}
+                    username={post.username}
+                    title={post.title}
+                    content={post.content}
+                    date={post.updatedAt}
+                  />
+                ))
+              ) : (
+                <h1 className="text-2xl">You haven't saved anything</h1>
+              )
             )}
           </div>
         </div>

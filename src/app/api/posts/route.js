@@ -3,9 +3,11 @@ import post from "../models/post";
 import connectMongoDB from "../libs/mongodb";
 export async function POST(request) {
 //   console.log("request", request);
-  const { username, title, content } = await request.json();
+  const { username, title, content, userid } = await request.json();
+
   await connectMongoDB();
-  await post.create({ username, title, content });
+  console.log(username,title,content,userid)
+  await post.create({ username, title, content, userid });
 
   return NextResponse.json(
     { message: "Post created successfully" },

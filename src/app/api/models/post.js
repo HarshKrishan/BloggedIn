@@ -13,6 +13,10 @@ const post = new Schema(
     content: {
       type: String,
     },
+    userid: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

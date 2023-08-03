@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = (params) => {
   return params.page == "home" ? (
     <>
-      <footer className="p-10 bg-slate-200">
+      <footer className="p-10 bg-slate-200 w-screen">
         <div className="flex justify-between">
           <h3 className="font-bold text-2xl">BloggedIn</h3>
           <div>
@@ -27,7 +27,7 @@ const Footer = (params) => {
     </>
   ) : (
     <>
-      <footer className="p-10 bg-slate-200 bottom-0  w-full">
+      <footer className="p-10 bg-slate-200 fixed bottom-0 w-full">
         <div className="flex justify-between">
           <h3 className="font-bold text-2xl">BloggedIn</h3>
           <div>
